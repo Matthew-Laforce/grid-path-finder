@@ -65,7 +65,7 @@ def deepcheck(grid):
         if int(bit) == 1:
             unvisited.append(counter)
         counter += 1
-    # Push all bottom-row values onto the stack (values 5 or less)
+    # Push bottom-row values onto the stack (1 <= item < 6)
     for item in range(1,6):
         if item in unvisited:
             stack.append(item)
@@ -77,18 +77,22 @@ def deepcheck(grid):
             return 1
         # Otherwise, check for adjacencies relative to cur_cell
         if (cur_cell - 5) in unvisited:
+            # Downwards check: -5 cells, checked first to lower stack priority
             down_position = unvisited.index(cur_cell - 5)
             down_cell = unvisited.pop(down_position)
             stack.append(down_cell)
         if (cur_cell + 1) in unvisited and (cur_cell % 5 != 0):
+            # Leftwards check: +1 cell (within the same row)
             left_position = unvisited.index(cur_cell + 1)
             left_cell = unvisited.pop(left_position)
             stack.append(left_cell)
         if (cur_cell - 1) in unvisited and (cur_cell % 5 != 1):
+            # Rightwards check: -1 cell (within the same row)
             right_position = unvisited.index(cur_cell - 1)
             right_cell = unvisited.pop(right_position)
             stack.append(right_cell)
         if (cur_cell + 5) in unvisited:
+            # Upwards check: +5 cells, checked last to maximize stack priority
             up_position = unvisited.index(cur_cell + 5)
             up_cell = unvisited.pop(up_position)
             stack.append(up_cell)
