@@ -1,6 +1,9 @@
 
 """ ============================================================================
 
+OLD VERSION. I will leave this up for now, but this code is massively improved
+on in 'grid_path_finder_2.py'.
+
 MATH 352 -- Assignment 2 -- Bonus Question
 Matthew Laforce
 Created Jan 28, 2025
