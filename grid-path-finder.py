@@ -1,9 +1,6 @@
 
 """ ============================================================================
 
-OLD VERSION. I will leave this up for now, but this code is massively improved
-on in 'grid_path_finder_2.py'.
-
 MATH 352 -- Assignment 2 -- Bonus Question
 Matthew Laforce
 Created Jan 28, 2025
@@ -14,6 +11,16 @@ configurations are equally likely.
 Using a computer to count, find the probability that there is a path (going 
 left or right; and up or down, but not diagonally) from the bottom of the grid 
 to the top only going through filled cells."
+
+Grid Representation:
+    25  24  23  22  21
+    20  19  18  17  16
+    15  14  13  12  11
+    10  09  08  07  06
+    05  04  03  02  01
+Where filled-in cells are represented using a '1', and where empty cells are 
+represented using '0'. Then, the binary value 0b1000010000100001000010000 is
+a grid with only the rightmost column filled, and nothing else.
 
 ============================================================================ """
 
@@ -64,38 +71,38 @@ def deepcheck(grid):
     unvisited = []
     str_grid = str(grid)
     counter = 1
-    for bit in str_grid[:1:-1]:
+    for bit in str_grid[:1:-1]:     # Add to 'unvisited' smallest to largest
         if int(bit) == 1:
             unvisited.append(counter)
         counter += 1
-    # Push bottom-row values onto the stack (1 <= item < 6)
+    # Push all bottom-row values onto the stack (values 5 or less)
     for item in range(1,6):
         if item in unvisited:
             stack.append(item)
     # While the stack is non-empty, pop and search for new values
     while (len(stack) > 0):
         cur_cell = stack.pop()
-        # If cur_cell reaches the top row, stop searching and return '1'
+        # If cur_cell reaches the top row (21-25), return '1'
         if (cur_cell >= 21):
             return 1
         # Otherwise, check for adjacencies relative to cur_cell
         if (cur_cell - 5) in unvisited:
-            # Downwards check: -5 cells, checked first to lower stack priority
+            # Downwards check: adjacencies removed from 'unvisited', added to stack
             down_position = unvisited.index(cur_cell - 5)
             down_cell = unvisited.pop(down_position)
             stack.append(down_cell)
         if (cur_cell + 1) in unvisited and (cur_cell % 5 != 0):
-            # Leftwards check: +1 cell (within the same row)
+            # Leftwards check
             left_position = unvisited.index(cur_cell + 1)
             left_cell = unvisited.pop(left_position)
             stack.append(left_cell)
         if (cur_cell - 1) in unvisited and (cur_cell % 5 != 1):
-            # Rightwards check: -1 cell (within the same row)
+            # Rightwards check
             right_position = unvisited.index(cur_cell - 1)
             right_cell = unvisited.pop(right_position)
             stack.append(right_cell)
         if (cur_cell + 5) in unvisited:
-            # Upwards check: +5 cells, checked last to maximize stack priority
+            # Upwards check: perform this check last to maximize it's priority
             up_position = unvisited.index(cur_cell + 5)
             up_cell = unvisited.pop(up_position)
             stack.append(up_cell)
