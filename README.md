@@ -1,4 +1,4 @@
-This code attempts to solve a bonus question in a math set; it ultimately reaches a count of **4925281 valid grids**. The problem is given as:
+This revised code attempts to solve a bonus question in a math set; it ultimately reaches a count of **10056959 valid grids**, giving a probability of *approximately 0.2997*. The problem is given as:
 
 "Consider a 5×5 grid where each cell is either filled or empty, and all configurations are equally likely.
 
@@ -10,4 +10,11 @@ Using a computer to count, find the probability that there is a path (going left
 
 My code represents grids as binary values, first evaluating them with a speedy 'quickcheck' before switching to a more thorough 'deepcheck' as required. The 'quickcheck' looks for straight lines; a completely vertical line is a confirmed match, while an empty horizontal line is a non-match. On the other hand, 'deepcheck' uses a modified version of depth-first search to evaluate more complex paths which may bend or branch. Essentially, 'deepcheck' uses a stack, prioritizing larger values and working towards the top row; however, the 'grid' is represented as a 1D list of cells, and boundary checks are required to respect the row structure for example.
 
-To get the probability the problem asks for, place this value over the problem universe, or 2^25. This gives approximately 0.1468 as the answer.
+EDIT: The 2.0 verison of this code makes multiple bugfixes and improvements. 
+- Fixed a major bug which caused critical leading zeroes to be discarded;
+- Corrected a mistake in the 'quickcheck' logic which incorrectly counted certain grids;
+- Changed the grid configuration from a needlessly convoluted setup, to a far more intuitive one;
+- Switched from storing 'unvisited' in a list (O(n) access time) to storing it as a set (O(1) access time);
+- Made the code more readable and easier to follow across the board.
+
+Note to get the probability the problem asks for, one can place the value over the problem's universe (2^25). This gives *approximately 0.2997* as the answer.
